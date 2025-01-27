@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import './results.css';
-import { CardItem } from './CardItem.tsx';
+import { CardItem } from '../CardItem.tsx';
 
 export default class Results extends Component<{}, any> {
   render() {

@@ -1,5 +1,5 @@
-import SearchForm from './components/top-controls/SearchForm.tsx';
-import Results from './components/results/Results.tsx';
+import SearchForm from './components/SearchForm.tsx';
+import Results from './components/Results/Results.tsx';
 import './app.css';
 
 function App() {
