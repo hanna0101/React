@@ -1,3 +1,11 @@
-function App() {}
+import SearchForm from './components/top-controls/SearchForm.tsx';
 
-export default App
+function App() {
+  return (
+    <>
+      <SearchForm />
+    </>
+  );
+}
+
+export default App;
