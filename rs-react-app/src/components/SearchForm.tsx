@@ -2,33 +2,15 @@ import React, { Component } from 'react';
 import Button from './Button.tsx';
 import SearchInput from './SearchInput.tsx';
 
-interface State {
-  query: string;
-}
-
-export default class SearchForm extends Component<{}, State> {
-  state: State = {
-    query: '',
-  };
-
-  handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ query: event.target.value });
-  };
-
-  handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const { query } = this.state;
-    console.log('Search Query:', query);
-  };
-
+export default class SearchForm extends Component<{}, any> {
   render() {
     return (
-      <form onSubmit={this.handleSearch}>
+      <form onSubmit={this.props.onSearchResult}>
         <SearchInput
-          value={this.state.query}
-          onChange={this.handleInputChange}
+          value={this.props.query}
+          onChange={this.props.onInputChage}
         />
-        <Button onClick={this.handleSearch} label="Search" />
+        <Button type="submit" label="Search" />
       </form>
     );
   }

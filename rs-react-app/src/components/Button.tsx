@@ -3,12 +3,17 @@ import React, { Component } from 'react';
 interface ButtonProps {
   onClick: () => void;
   label: string;
+  type?: string;
 }
 
 export default class Button extends Component<{}, ButtonProps> {
   render() {
-    const { onClick, label } = this.props;
+    const { onClick, label, type } = this.props;
 
-    return <button onClick={onClick}>{label}</button>;
+    return (
+      <button type={type} onClick={onClick}>
+        {label}
+      </button>
+    );
   }
 }
