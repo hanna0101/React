@@ -10,7 +10,7 @@ export default class SearchForm extends Component<{}, any> {
           value={this.props.query}
           onChange={this.props.onInputChage}
         />
-        <Button type="submit" label="Search" />
+        <Button type="submit" label="Search" value={this.props.query} />
       </form>
     );
   }

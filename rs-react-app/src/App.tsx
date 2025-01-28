@@ -15,7 +15,8 @@ export default class App extends Component<any, any> {
   };
 
   handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ searchResults: [], query: event.target.value });
+    const trimmedValue = event.target.value.trim();
+    this.setState({ searchResults: [], query: trimmedValue });
   };
 
   handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
