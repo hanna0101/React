@@ -1,4 +1,4 @@
-import SearchForm from './components/SearchForm.tsx';
+import SearchForm from './components/SearchForm/SearchForm.tsx';
 import Results from './components/Results/Results.tsx';
 import './app.css';
 import React, { Component } from 'react';
@@ -24,7 +24,7 @@ export default class App extends Component<any, any> {
 
   handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    fetch(`https://swapi.dev/api/people?search=${this.state.query}`)
+    fetch(`https://swapi.dev/api/people`)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`received ${response.status}`);

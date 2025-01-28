@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './searchInput.css';
 
 interface InputProps {
   value: string;

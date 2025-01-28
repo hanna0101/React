@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import Button from './Button.tsx';
-import SearchInput from './SearchInput.tsx';
+import Button from '../Button/Button.tsx';
+import SearchInput from '../SearchInput/SearchInput.tsx';
+import './searchForm.css';
 
 export default class SearchForm extends Component<{}, any> {
   render() {
