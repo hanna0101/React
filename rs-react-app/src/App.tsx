@@ -14,7 +14,7 @@ export default class App extends Component<any, any> {
   state: State = {
     query: '',
     searchResults: [],
-    isLoading: true,
+    isLoading: false,
   };
 
   handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,6 +58,7 @@ export default class App extends Component<any, any> {
           query={query}
           onInputChage={this.handleInputChange}
           onSearchResult={this.handleSearch}
+          isLoading={this.state.isLoading}
         />
         {result}
       </div>

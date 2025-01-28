@@ -9,10 +9,10 @@ interface ButtonProps {
 
 export default class Button extends Component<{}, ButtonProps> {
   render() {
-    const { onClick, label, type, value } = this.props;
+    const { onClick, label, type, value, isLoading } = this.props;
 
     return (
-      <button type={type} onClick={onClick} disabled={!value}>
+      <button type={type} onClick={onClick} disabled={!value || isLoading}>
         {label}
       </button>
     );
