@@ -26,6 +26,10 @@ export default class App extends Component<any, any> {
     event.preventDefault();
     fetch(`https://swapi.dev/api/people?search=${this.state.query}`)
       .then((response) => {
+        if (!response.ok) {
+          throw new Error(`received ${response.status}`);
+        }
+
         this.setState({ isLoading: true });
         return response.json();
       })
