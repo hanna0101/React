@@ -11,11 +11,7 @@ export default class SearchForm extends Component<{}, any> {
           value={this.props.query}
           onChange={this.props.onInputChage}
         />
-        <Button
-          type="submit"
-          label="Search"
-          disabled={!this.props.query || this.props.isLoading}
-        />
+        <Button type="submit" label="Search" disabled={this.props.isLoading} />
       </form>
     );
   }

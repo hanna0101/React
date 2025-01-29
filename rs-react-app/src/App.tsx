@@ -33,21 +33,29 @@ export default class App extends Component<any, any> {
 
   handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     this.setState({ isLoading: true });
 
-    this.swapiService
-      .getAllPeople()
-      .then((data) => {
-        this.setState({
-          isLoading: false,
-          searchResults: data.results,
-        });
-      })
-      .catch((error) => {
-        this.setState({ isLoading: false, isServerError: true });
-        console.error(error);
+    if (this.state.query === localStorage.getItem('searchTerm')) {
+      this.setState({
+        isLoading: false,
+        searchResults: JSON.parse(localStorage.getItem('result')),
       });
+    } else {
+      this.swapiService
+        .getAllPeople()
+        .then((data) => {
+          this.setState({
+            isLoading: false,
+            searchResults: data.results,
+          });
+          localStorage.setItem('searchTerm', this.state.query);
+          localStorage.setItem('result', JSON.stringify(data.results));
+        })
+        .catch((error) => {
+          this.setState({ isLoading: false, isServerError: true });
+          console.error(error);
+        });
+    }
   };
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
