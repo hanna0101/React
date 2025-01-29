@@ -6,14 +6,15 @@ interface ButtonProps {
   label: string;
   type?: string;
   value: string;
+  disabled: boolean;
 }
 
 export default class Button extends Component<{}, ButtonProps> {
   render() {
-    const { onClick, label, type, value, isLoading } = this.props;
+    const { onClick, label, type, disabled } = this.props;
 
     return (
-      <button type={type} onClick={onClick} disabled={!value || isLoading}>
+      <button type={type} onClick={onClick} disabled={disabled}>
         {label}
       </button>
     );

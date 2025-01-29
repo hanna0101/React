@@ -5,12 +5,14 @@ import React, { Component } from 'react';
 import Spinner from './components/Spinner/Spinner.tsx';
 import SwapiService from './services/SwapiService.ts';
 import ErrorIndicator from './components/ErrorIndicator/ErrorIndicator.tsx';
+import Button from './components/Button/Button.tsx';
 
 interface State {
   query: string;
   searchResults: any[];
   isLoading: boolean;
   isServerError: boolean;
+  isError: boolean;
 }
 
 export default class App extends Component<any, any> {
@@ -19,6 +21,7 @@ export default class App extends Component<any, any> {
     searchResults: [],
     isLoading: false,
     isServerError: false,
+    isError: false,
   };
 
   private swapiService = new SwapiService();
@@ -47,8 +50,23 @@ export default class App extends Component<any, any> {
       });
   };
 
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    console.error(error);
+    this.setState({ isError: true });
+  }
+
+  handleTrowNewError = () => {
+    this.setState({ isError: true });
+    throw new Error();
+  };
+
   render() {
-    const { searchResults, query, isLoading, isServerError } = this.state;
+    const { searchResults, query, isLoading, isServerError, isError } =
+      this.state;
+
+    if (isError) {
+      return <ErrorIndicator />;
+    }
 
     return (
       <div className="body">
@@ -63,6 +81,11 @@ export default class App extends Component<any, any> {
         ) : (
           <Results searchResults={searchResults} isLoading={isLoading} />
         )}
+        <Button
+          type="text"
+          onClick={this.handleTrowNewError}
+          label="Throw Error"
+        />
       </div>
     );
   }
