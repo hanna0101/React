@@ -66,6 +66,15 @@ export default class App extends Component<AppState, undefined> {
     }
   };
 
+  componentDidMount() {
+    if (localStorage.getItem('searchTerm')) {
+      this.setState((prevState) => ({
+        ...prevState,
+        searchTerm: localStorage.getItem('searchTerm'),
+      }));
+    }
+  }
+
   componentDidCatch(error: Error) {
     console.error(error);
     this.setState((prevState) => ({ ...prevState, isError: true }));
