@@ -24,13 +24,14 @@ export default class App extends Component<any, any> {
 
   handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    this.setState({ isLoading: true });
     fetch(`https://swapi.dev/api/people`)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`received ${response.status}`);
         }
 
-        this.setState({ isLoading: true });
         return response.json();
       })
       .then((data) => {
