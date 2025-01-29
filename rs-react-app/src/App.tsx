@@ -3,6 +3,7 @@ import Results from './components/Results/Results.tsx';
 import './app.css';
 import React, { Component } from 'react';
 import Spinner from './components/Spinner/Spinner.tsx';
+import SwapiService from './services/SwapiService.ts';
 
 interface State {
   query: string;
@@ -17,6 +18,8 @@ export default class App extends Component<any, any> {
     isLoading: false,
   };
 
+  private swapiService = new SwapiService();
+
   handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const trimmedValue = event.target.value.trim();
     this.setState({ query: trimmedValue });
@@ -26,14 +29,9 @@ export default class App extends Component<any, any> {
     event.preventDefault();
 
     this.setState({ isLoading: true });
-    fetch(`https://swapi.dev/api/people`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`received ${response.status}`);
-        }
 
-        return response.json();
-      })
+    this.swapiService
+      .getAllPeople()
       .then((data) => {
         this.setState({
           isLoading: false,
