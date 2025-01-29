@@ -1,22 +1,21 @@
 import SearchForm from './components/SearchForm/SearchForm.tsx';
 import Results from './components/Results/Results.tsx';
 import './app.css';
-import React, { Component } from 'react';
-import Spinner from './components/Spinner/Spinner.tsx';
+import { Component } from 'react';
 import SwapiService from './services/SwapiService.ts';
 import ErrorIndicator from './components/ErrorIndicator/ErrorIndicator.tsx';
 import Button from './components/Button/Button.tsx';
 
-interface State {
+interface AppState {
   searchTerm: string;
-  searchResults: any[];
+  searchResults: [];
   isLoading: boolean;
   isServerError: boolean;
   isError: boolean;
 }
 
-export default class App extends Component<any, any> {
-  state: State = {
+export default class App extends Component<AppState, undefined> {
+  state: AppState = {
     searchTerm: '',
     searchResults: [],
     isLoading: false,
@@ -28,45 +27,52 @@ export default class App extends Component<any, any> {
 
   handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const trimmedValue = event.target.value.trim();
-    this.setState({ searchTerm: trimmedValue });
+    this.setState((prevState) => ({ ...prevState, searchTerm: trimmedValue }));
   };
 
   handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    this.setState({ isLoading: true });
+    this.setState((prevState) => ({ ...prevState, isLoading: true }));
 
     const { searchTerm } = this.state;
 
     if (searchTerm === localStorage.getItem('searchTerm')) {
-      this.setState({
+      const storedResults = localStorage.getItem('result');
+      this.setState((prevState) => ({
+        ...prevState,
         isLoading: false,
-        searchResults: JSON.parse(localStorage.getItem('result')),
-      });
+        searchResults: storedResults ? JSON.parse(storedResults) : [],
+      }));
     } else {
       this.swapiService
         .getPeople(searchTerm)
-        .then((data) => {
-          this.setState({
+        .then((data: { results: [] }) => {
+          this.setState((prevState) => ({
+            ...prevState,
             isLoading: false,
             searchResults: data.results,
-          });
+          }));
           localStorage.setItem('searchTerm', searchTerm);
           localStorage.setItem('result', JSON.stringify(data.results));
         })
         .catch((error) => {
-          this.setState({ isLoading: false, isServerError: true });
+          this.setState((prevState) => ({
+            ...prevState,
+            isLoading: false,
+            isServerError: true,
+          }));
           console.error(error);
         });
     }
   };
 
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+  componentDidCatch(error: Error) {
     console.error(error);
-    this.setState({ isError: true });
+    this.setState((prevState) => ({ ...prevState, isError: true }));
   }
 
   handleTrowNewError = () => {
-    this.setState({ isError: true });
+    this.setState((prevState) => ({ ...prevState, isError: true }));
     throw new Error();
   };
 
@@ -82,9 +88,9 @@ export default class App extends Component<any, any> {
       <div className="body">
         <SearchForm
           searchTerm={searchTerm}
-          onInputChage={this.handleInputChange}
+          onInputChange={this.handleInputChange}
           onSearchResult={this.handleSearch}
-          isLoading={this.state.isLoading}
+          isLoading={isLoading}
         />
         {isServerError ? (
           <ErrorIndicator />

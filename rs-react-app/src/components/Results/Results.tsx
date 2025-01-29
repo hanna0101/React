@@ -1,9 +1,14 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import './results.css';
 import { CardItem } from '../CardItem/CardItem';
 import Spinner from '../Spinner/Spinner.tsx';
 
-export default class Results extends Component<any, any> {
+interface ResultsProps {
+  searchResults: [];
+  isLoading: boolean;
+}
+
+export default class Results extends Component<ResultsProps, undefined> {
   extractIdFromUrl = (url) => {
     const match = url.match(/\/(\d+)\/$/);
     return match ? parseInt(match[1], 10) : null;

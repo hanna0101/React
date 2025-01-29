@@ -4,7 +4,9 @@ input {
   font-size: 16px;
   border: 1px solid #ddd;
   border-radius: 5px;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 input:focus {

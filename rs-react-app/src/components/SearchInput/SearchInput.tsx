@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import './searchInput.css';
 
 interface InputProps {
@@ -6,7 +6,7 @@ interface InputProps {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export default class SearchInput extends Component<{}, InputProps> {
+export default class SearchInput extends Component<InputProps, undefined> {
   render() {
     const { value, onChange } = this.props;
 

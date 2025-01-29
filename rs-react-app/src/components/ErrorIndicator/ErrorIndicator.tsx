@@ -1,6 +1,9 @@
 import { Component } from 'react';
 import './errorIndicator.css';
-export default class ErrorIndicator extends Component<any, any> {
+export default class ErrorIndicator extends Component<
+  Record<never, never>,
+  Record<never, never>
+> {
   render() {
     return (
       <div className="error-indicator">

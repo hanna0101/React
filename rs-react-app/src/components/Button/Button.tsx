@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import './button.css';
 
 interface ButtonProps {
   onClick: () => void;
   label: string;
-  type?: string;
+  type?: 'submit' | 'reset' | 'button';
   value: string;
   disabled: boolean;
 }
 
-export default class Button extends Component<{}, ButtonProps> {
+export default class Button extends Component<ButtonProps, undefined> {
   render() {
     const { onClick, label, type, disabled } = this.props;
 

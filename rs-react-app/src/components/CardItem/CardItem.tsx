@@ -1,8 +1,15 @@
 import { Component } from 'react';
-import PropTypes from 'prop-types';
 import './cardItem.css';
 
-export class CardItem extends Component<any, any> {
+interface CardItemsProps {
+  img: string;
+  name: string;
+  birthYear: number;
+  gender: string;
+  eyeColor: string;
+}
+
+export class CardItem extends Component<CardItemsProps, undefined> {
   render() {
     const { img, name, birthYear, gender, eyeColor } = this.props;
 
