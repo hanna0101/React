@@ -49,14 +49,6 @@ export default class App extends Component<any, any> {
   render() {
     const { searchResults, query } = this.state;
 
-    let result;
-
-    if (this.state.isLoading) {
-      result = <Spinner />;
-    } else {
-      result = <Results searchResults={searchResults} />;
-    }
-
     return (
       <div className="body">
         <SearchForm
@@ -65,7 +57,11 @@ export default class App extends Component<any, any> {
           onSearchResult={this.handleSearch}
           isLoading={this.state.isLoading}
         />
-        {result}
+        {this.state.isLoading ? (
+          <Spinner />
+        ) : (
+          <Results searchResults={searchResults} />
+        )}
       </div>
     );
   }
