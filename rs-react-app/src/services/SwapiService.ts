@@ -4,8 +4,10 @@ export default class SwapiService {
     this.baseURL = baseURL;
   }
 
-  getAllPeople() {
-    const url = `${this.baseURL}/people/`;
+  getPeople(searchTerm) {
+    const url = searchTerm
+      ? `${this.baseURL}/people/?search=${searchTerm}`
+      : `${this.baseURL}/people/?page=1`;
 
     return fetch(url)
       .then((response) => {

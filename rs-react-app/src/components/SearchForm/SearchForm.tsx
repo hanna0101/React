@@ -8,7 +8,7 @@ export default class SearchForm extends Component<{}, any> {
     return (
       <form onSubmit={this.props.onSearchResult}>
         <SearchInput
-          value={this.props.query}
+          value={this.props.searchTerm}
           onChange={this.props.onInputChage}
         />
         <Button type="submit" label="Search" disabled={this.props.isLoading} />
