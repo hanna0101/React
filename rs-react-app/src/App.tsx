@@ -4,11 +4,13 @@ import './app.css';
 import React, { Component } from 'react';
 import Spinner from './components/Spinner/Spinner.tsx';
 import SwapiService from './services/SwapiService.ts';
+import ErrorIndicator from './components/ErrorIndicator/ErrorIndicator.tsx';
 
 interface State {
   query: string;
   searchResults: any[];
   isLoading: boolean;
+  isServerError: boolean;
 }
 
 export default class App extends Component<any, any> {
@@ -16,6 +18,7 @@ export default class App extends Component<any, any> {
     query: '',
     searchResults: [],
     isLoading: false,
+    isServerError: false,
   };
 
   private swapiService = new SwapiService();
@@ -39,13 +42,13 @@ export default class App extends Component<any, any> {
         });
       })
       .catch((error) => {
-        this.setState({ isLoading: false });
+        this.setState({ isLoading: false, isServerError: true });
         console.error(error);
       });
   };
 
   render() {
-    const { searchResults, query, isLoading } = this.state;
+    const { searchResults, query, isLoading, isServerError } = this.state;
 
     return (
       <div className="body">
@@ -55,7 +58,11 @@ export default class App extends Component<any, any> {
           onSearchResult={this.handleSearch}
           isLoading={this.state.isLoading}
         />
-        <Results searchResults={searchResults} isLoading={isLoading} />
+        {isServerError ? (
+          <ErrorIndicator />
+        ) : (
+          <Results searchResults={searchResults} isLoading={isLoading} />
+        )}
       </div>
     );
   }
