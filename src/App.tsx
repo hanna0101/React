@@ -5,16 +5,17 @@ import { Component } from 'react';
 import SwapiService from './services/SwapiService.ts';
 import ErrorIndicator from './components/ErrorIndicator/ErrorIndicator.tsx';
 import Button from './components/Button/Button.tsx';
+import { Person } from './services/types/types.ts';
 
 interface AppState {
   searchTerm: string;
-  searchResults: [];
+  searchResults: Person[];
   isLoading: boolean;
   isServerError: boolean;
   isError: boolean;
 }
 
-export default class App extends Component<AppState, undefined> {
+export default class App extends Component<Record<never, never>, AppState> {
   state: AppState = {
     searchTerm: '',
     searchResults: [],
@@ -46,7 +47,7 @@ export default class App extends Component<AppState, undefined> {
     } else {
       this.swapiService
         .getPeople(searchTerm)
-        .then((data: { results: [] }) => {
+        .then((data: { results: Person[] }) => {
           this.setState((prevState) => ({
             ...prevState,
             isLoading: false,
@@ -67,12 +68,11 @@ export default class App extends Component<AppState, undefined> {
   };
 
   componentDidMount() {
-    if (localStorage.getItem('searchTerm')) {
-      this.setState((prevState) => ({
-        ...prevState,
-        searchTerm: localStorage.getItem('searchTerm'),
-      }));
-    }
+    const storedSearchTerm = localStorage.getItem('searchTerm') || '';
+    this.setState((prevState) => ({
+      ...prevState,
+      searchTerm: storedSearchTerm,
+    }));
   }
 
   componentDidCatch(error: Error) {
@@ -80,7 +80,7 @@ export default class App extends Component<AppState, undefined> {
     this.setState((prevState) => ({ ...prevState, isError: true }));
   }
 
-  handleTrowNewError = () => {
+  handleThrowNewError = () => {
     this.setState((prevState) => ({ ...prevState, isError: true }));
     throw new Error();
   };
@@ -107,8 +107,8 @@ export default class App extends Component<AppState, undefined> {
           <Results searchResults={searchResults} isLoading={isLoading} />
         )}
         <Button
-          type="text"
-          onClick={this.handleTrowNewError}
+          type="button"
+          onClick={this.handleThrowNewError}
           label="Throw Error"
         />
       </div>

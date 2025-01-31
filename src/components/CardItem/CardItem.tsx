@@ -9,7 +9,7 @@ interface CardItemsProps {
   eyeColor: string;
 }
 
-export class CardItem extends Component<CardItemsProps, undefined> {
+export class CardItem extends Component<CardItemsProps, Record<never, never>> {
   render() {
     const { img, name, birthYear, gender, eyeColor } = this.props;
 

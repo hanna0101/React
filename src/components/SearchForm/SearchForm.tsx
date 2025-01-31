@@ -4,12 +4,16 @@ import SearchInput from '../SearchInput/SearchInput.tsx';
 import './searchForm.css';
 
 interface SearchFormProps {
-  onSearchResult: (event) => void;
+  onSearchResult: (event: React.FormEvent<HTMLFormElement>) => void;
   searchTerm: string;
-  onInputChange: (event) => void;
+  onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   isLoading: boolean;
 }
-export default class SearchForm extends Component<SearchFormProps, undefined> {
+
+export default class SearchForm extends Component<
+  SearchFormProps,
+  Record<never, never>
+> {
   render() {
     const { onSearchResult, searchTerm, onInputChange, isLoading } = this.props;
 

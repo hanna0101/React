@@ -6,7 +6,10 @@ interface InputProps {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export default class SearchInput extends Component<InputProps, undefined> {
+export default class SearchInput extends Component<
+  InputProps,
+  Record<never, never>
+> {
   render() {
     const { value, onChange } = this.props;
 
