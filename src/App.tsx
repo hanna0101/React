@@ -26,17 +26,7 @@ export default class App extends Component<Record<never, never>, AppState> {
 
   private swapiService = new SwapiService();
 
-  handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const trimmedValue = event.target.value.trim();
-    this.setState((prevState) => ({ ...prevState, searchTerm: trimmedValue }));
-  };
-
-  handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    this.setState((prevState) => ({ ...prevState, isLoading: true }));
-
-    const { searchTerm } = this.state;
-
+  fetchPeople = (searchTerm: string) => {
     if (searchTerm === localStorage.getItem('searchTerm')) {
       const storedResults = localStorage.getItem('result');
       this.setState((prevState) => ({
@@ -44,35 +34,50 @@ export default class App extends Component<Record<never, never>, AppState> {
         isLoading: false,
         searchResults: storedResults ? JSON.parse(storedResults) : [],
       }));
-    } else {
-      this.swapiService
-        .getPeople(searchTerm)
-        .then((data: { results: Person[] }) => {
-          this.setState((prevState) => ({
-            ...prevState,
-            isLoading: false,
-            searchResults: data.results,
-          }));
-          localStorage.setItem('searchTerm', searchTerm);
-          localStorage.setItem('result', JSON.stringify(data.results));
-        })
-        .catch((error) => {
-          this.setState((prevState) => ({
-            ...prevState,
-            isLoading: false,
-            isServerError: true,
-          }));
-          console.error(error);
-        });
+      return;
     }
+
+    this.setState((prevState) => ({ ...prevState, isLoading: true }));
+
+    this.swapiService
+      .getPeople(searchTerm)
+      .then((data: { results: Person[] }) => {
+        this.setState((prevState) => ({
+          ...prevState,
+          isLoading: false,
+          searchResults: data.results,
+        }));
+        localStorage.setItem('searchTerm', searchTerm);
+        localStorage.setItem('result', JSON.stringify(data.results));
+      })
+      .catch((error) => {
+        this.setState((prevState) => ({
+          ...prevState,
+          isLoading: false,
+          isServerError: true,
+        }));
+        console.error(error);
+      });
+  };
+
+  handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const trimmedValue = event.target.value.trim();
+    this.setState((prevState) => ({ ...prevState, searchTerm: trimmedValue }));
+  };
+
+  handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    this.fetchPeople(this.state.searchTerm);
   };
 
   componentDidMount() {
     const storedSearchTerm = localStorage.getItem('searchTerm') || '';
-    this.setState((prevState) => ({
-      ...prevState,
-      searchTerm: storedSearchTerm,
-    }));
+    this.setState(
+      (prevState) => ({ ...prevState, searchTerm: storedSearchTerm }),
+      () => {
+        this.fetchPeople(storedSearchTerm);
+      }
+    );
   }
 
   componentDidCatch(error: Error) {
