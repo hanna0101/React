@@ -1,4 +1,3 @@
-import { Component } from 'react';
 import './searchInput.css';
 
 interface InputProps {
@@ -6,20 +5,13 @@ interface InputProps {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export default class SearchInput extends Component<
-  InputProps,
-  Record<never, never>
-> {
-  render() {
-    const { value, onChange } = this.props;
-
-    return (
-      <input
-        type="text"
-        value={value}
-        onChange={onChange}
-        placeholder="Search..."
-      />
-    );
-  }
-}
+export const SearchInput = ({ value, onChange }: InputProps) => {
+  return (
+    <input
+      type="text"
+      value={value}
+      onChange={onChange}
+      placeholder="Search..."
+    />
+  );
+};

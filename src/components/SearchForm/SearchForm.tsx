@@ -1,7 +1,7 @@
 import { Component } from 'react';
-import Button from '../Button/Button.tsx';
-import SearchInput from '../SearchInput/SearchInput.tsx';
+import { SearchInput } from '../SearchInput/SearchInput.tsx';
 import './searchForm.css';
+import { Button } from '../Button/Button.tsx';
 
 interface SearchFormProps {
   onSearchResult: (event: React.FormEvent<HTMLFormElement>) => void;

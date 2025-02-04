@@ -1,113 +1,80 @@
 import SearchForm from './components/SearchForm/SearchForm.tsx';
-import Results from './components/Results/Results.tsx';
+import { Results } from './components/Results/Results.tsx';
 import './app.css';
-import { Component } from 'react';
 import SwapiService from './services/SwapiService.ts';
-import ErrorIndicator from './components/ErrorIndicator/ErrorIndicator.tsx';
-import Button from './components/Button/Button.tsx';
+import { ErrorIndicator } from './components/ErrorIndicator/ErrorIndicator.tsx';
+import { Button } from './components/Button/Button.tsx';
 import { Person } from './services/types/types.ts';
 import { StorageService } from './services/StorageService.ts';
 import { prepareSearchResultsData } from './utils/prepareSearchResultsData.ts';
+import { useCallback, useEffect, useState } from 'react';
 
-interface AppState {
-  searchTerm: string;
-  searchResults: Person[];
-  isLoading: boolean;
-  isServerError: boolean;
-  isError: boolean;
-}
+const swapiService = new SwapiService();
+const storageService = new StorageService();
 
-export default class App extends Component<object, AppState> {
-  state: AppState = {
-    searchTerm: '',
-    searchResults: [],
-    isLoading: false,
-    isServerError: false,
-    isError: false,
-  };
+export const App = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchResults, setSearchResults] = useState<Person[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isServerError, setIsServerError] = useState(false);
 
-  private swapiService = new SwapiService();
-  private storageService = new StorageService();
-
-  fetchPeople = (searchTerm: string) => {
-    if (searchTerm === this.storageService.getSearchTerm()) {
-      this.setState((prevState) => ({
-        ...prevState,
-        isLoading: false,
-        searchResults: this.storageService.getSearchResults(),
-      }));
+  const fetchPeople = useCallback((searchTerm: string) => {
+    if (searchTerm === storageService.getSearchTerm()) {
+      setIsLoading(false);
+      setSearchResults(storageService.getSearchResults());
     }
 
-    this.setState((prevState) => ({ ...prevState, isLoading: true }));
+    setIsLoading(true);
 
-    this.swapiService
+    swapiService
       .getPeople(searchTerm)
       .then((data: { results: Person[] }) => {
-        this.setState((prevState) => ({
-          ...prevState,
-          isLoading: false,
-          searchResults: prepareSearchResultsData(data.results),
-        }));
-        this.storageService.setSearchTerm(searchTerm);
-        this.storageService.setSearchResults(data.results);
+        setIsLoading(false);
+        setSearchResults(prepareSearchResultsData(data.results));
+        storageService.setSearchTerm(searchTerm);
+        storageService.setSearchResults(data.results);
       })
       .catch((error) => {
-        this.setState((prevState) => ({
-          ...prevState,
-          isLoading: false,
-          isServerError: true,
-        }));
+        setIsLoading(false);
+        setIsServerError(true);
         console.error(error);
       });
-  };
+  }, []);
 
-  handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    const storedSearchTerm = storageService.getSearchTerm();
+    setSearchTerm(storedSearchTerm);
+    fetchPeople(storedSearchTerm);
+  }, [fetchPeople]);
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const searchTerm = event.target.value.trim();
-    this.setState((prevState) => ({ ...prevState, searchTerm }));
+    setSearchTerm(searchTerm);
   };
 
-  handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    this.fetchPeople(this.state.searchTerm);
+    fetchPeople(searchTerm);
   };
 
-  componentDidMount() {
-    const storedSearchTerm = this.storageService.getSearchTerm();
-    this.setState(
-      (prevState) => ({ ...prevState, searchTerm: storedSearchTerm }),
-      () => {
-        this.fetchPeople(storedSearchTerm);
-      }
-    );
-  }
-
-  handleThrowNewError = () => {
-    this.setState((prevState) => ({ ...prevState, isError: true }));
+  const handleThrowNewError = () => {
     throw new Error();
   };
 
-  render() {
-    const { searchResults, searchTerm, isLoading, isServerError } = this.state;
-
-    return (
-      <>
-        <SearchForm
-          searchTerm={searchTerm}
-          onInputChange={this.handleInputChange}
-          onSearchResult={this.handleSearch}
-          isLoading={isLoading}
-        />
-        {isServerError ? (
-          <ErrorIndicator />
-        ) : (
-          <Results searchResults={searchResults} isLoading={isLoading} />
-        )}
-        <Button
-          type="button"
-          onClick={this.handleThrowNewError}
-          label="Throw Error"
-        />
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <SearchForm
+        searchTerm={searchTerm}
+        onInputChange={handleInputChange}
+        onSearchResult={handleSearch}
+        isLoading={isLoading}
+      />
+      {isServerError ? (
+        <ErrorIndicator />
+      ) : (
+        <Results searchResults={searchResults} isLoading={isLoading} />
+      )}
+      <Button type="button" onClick={handleThrowNewError} label="Throw Error" />
+    </>
+  );
+};
