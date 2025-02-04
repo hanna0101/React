@@ -1,4 +1,5 @@
 import { Person } from './types/types.ts';
+import { BASE_URL } from '../constants/constants.ts';
 
 interface SwapiResponse {
   results: Person[];
@@ -7,14 +8,15 @@ interface SwapiResponse {
 export default class SwapiService {
   private readonly baseURL: string;
 
-  constructor(baseURL = 'https://swapi.dev/api') {
+  constructor(baseURL = BASE_URL) {
     this.baseURL = baseURL;
   }
 
   getPeople(searchTerm: string = ''): Promise<SwapiResponse> {
-    const url = searchTerm
-      ? `${this.baseURL}/people/?search=${encodeURIComponent(searchTerm)}`
-      : `${this.baseURL}/people/?page=1`;
+    const searchParams = searchTerm
+      ? `/people/?search=${encodeURIComponent(searchTerm)}`
+      : '/people/?page=1';
+    const url = `${this.baseURL}${searchParams}`;
 
     return fetch(url)
       .then((response) => {

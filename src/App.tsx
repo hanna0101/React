@@ -6,6 +6,8 @@ import SwapiService from './services/SwapiService.ts';
 import ErrorIndicator from './components/ErrorIndicator/ErrorIndicator.tsx';
 import Button from './components/Button/Button.tsx';
 import { Person } from './services/types/types.ts';
+import { StorageService } from './services/StorageService.ts';
+import { prepareSearchResultsData } from './utils/prepareSearchResultsData.ts';
 
 interface AppState {
   searchTerm: string;
@@ -15,7 +17,7 @@ interface AppState {
   isError: boolean;
 }
 
-export default class App extends Component<Record<never, never>, AppState> {
+export default class App extends Component<object, AppState> {
   state: AppState = {
     searchTerm: '',
     searchResults: [],
@@ -25,16 +27,15 @@ export default class App extends Component<Record<never, never>, AppState> {
   };
 
   private swapiService = new SwapiService();
+  private storageService = new StorageService();
 
   fetchPeople = (searchTerm: string) => {
-    if (searchTerm === localStorage.getItem('searchTerm')) {
-      const storedResults = localStorage.getItem('result');
+    if (searchTerm === this.storageService.getSearchTerm()) {
       this.setState((prevState) => ({
         ...prevState,
         isLoading: false,
-        searchResults: storedResults ? JSON.parse(storedResults) : [],
+        searchResults: this.storageService.getSearchResults(),
       }));
-      return;
     }
 
     this.setState((prevState) => ({ ...prevState, isLoading: true }));
@@ -45,10 +46,10 @@ export default class App extends Component<Record<never, never>, AppState> {
         this.setState((prevState) => ({
           ...prevState,
           isLoading: false,
-          searchResults: data.results,
+          searchResults: prepareSearchResultsData(data.results),
         }));
-        localStorage.setItem('searchTerm', searchTerm);
-        localStorage.setItem('result', JSON.stringify(data.results));
+        this.storageService.setSearchTerm(searchTerm);
+        this.storageService.setSearchResults(data.results);
       })
       .catch((error) => {
         this.setState((prevState) => ({
@@ -61,8 +62,8 @@ export default class App extends Component<Record<never, never>, AppState> {
   };
 
   handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const trimmedValue = event.target.value.trim();
-    this.setState((prevState) => ({ ...prevState, searchTerm: trimmedValue }));
+    const searchTerm = event.target.value.trim();
+    this.setState((prevState) => ({ ...prevState, searchTerm }));
   };
 
   handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
@@ -71,7 +72,7 @@ export default class App extends Component<Record<never, never>, AppState> {
   };
 
   componentDidMount() {
-    const storedSearchTerm = localStorage.getItem('searchTerm') || '';
+    const storedSearchTerm = this.storageService.getSearchTerm();
     this.setState(
       (prevState) => ({ ...prevState, searchTerm: storedSearchTerm }),
       () => {
@@ -80,26 +81,16 @@ export default class App extends Component<Record<never, never>, AppState> {
     );
   }
 
-  componentDidCatch(error: Error) {
-    console.error(error);
-    this.setState((prevState) => ({ ...prevState, isError: true }));
-  }
-
   handleThrowNewError = () => {
     this.setState((prevState) => ({ ...prevState, isError: true }));
     throw new Error();
   };
 
   render() {
-    const { searchResults, searchTerm, isLoading, isServerError, isError } =
-      this.state;
-
-    if (isError) {
-      return <ErrorIndicator />;
-    }
+    const { searchResults, searchTerm, isLoading, isServerError } = this.state;
 
     return (
-      <div className="body">
+      <>
         <SearchForm
           searchTerm={searchTerm}
           onInputChange={this.handleInputChange}
@@ -116,7 +107,7 @@ export default class App extends Component<Record<never, never>, AppState> {
           onClick={this.handleThrowNewError}
           label="Throw Error"
         />
-      </div>
+      </>
     );
   }
 }

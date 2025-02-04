@@ -13,19 +13,9 @@ export default class Results extends Component<
   ResultsProps,
   Record<never, never>
 > {
-  extractIdFromUrl = (url: string) => {
-    const match = url.match(/\/(\d+)\/$/);
-    return match ? parseInt(match[1], 10) : null;
-  };
-
   renderResults = () => {
-    const { searchResults } = this.props;
-
-    return searchResults.map((el) => {
-      const { birth_year, name, gender, eye_color, url } = el;
-      const id = this.extractIdFromUrl(url);
-
-      return id ? (
+    return this.props.searchResults.map(
+      ({ id, birth_year, name, gender, eye_color }) => (
         <CardItem
           key={id}
           img={`https://starwars-visualguide.com/assets/img/characters/${id}.jpg`}
@@ -34,9 +24,10 @@ export default class Results extends Component<
           gender={gender}
           eyeColor={eye_color}
         />
-      ) : null;
-    });
+      )
+    );
   };
+
   render() {
     const { isLoading } = this.props;
 
