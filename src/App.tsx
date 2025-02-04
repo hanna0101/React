@@ -8,12 +8,13 @@ import { Person } from './services/types/types.ts';
 import { StorageService } from './services/StorageService.ts';
 import { prepareSearchResultsData } from './utils/prepareSearchResultsData.ts';
 import { useCallback, useEffect, useState } from 'react';
+import { useGetSearchTerm } from './helpers/useGetSearchTerm.ts';
 
 const swapiService = new SwapiService();
 const storageService = new StorageService();
 
 export const App = () => {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useGetSearchTerm();
   const [searchResults, setSearchResults] = useState<Person[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isServerError, setIsServerError] = useState(false);
@@ -42,10 +43,8 @@ export const App = () => {
   }, []);
 
   useEffect(() => {
-    const storedSearchTerm = storageService.getSearchTerm();
-    setSearchTerm(storedSearchTerm);
-    fetchPeople(storedSearchTerm);
-  }, [fetchPeople]);
+    fetchPeople(searchTerm);
+  }, [searchTerm, fetchPeople]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const searchTerm = event.target.value.trim();
