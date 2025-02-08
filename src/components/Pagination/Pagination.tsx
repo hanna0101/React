@@ -1,38 +1,41 @@
 import { Button } from '../Button/Button.tsx';
 import './pagination.css';
-import { API } from '../../constants/constants.ts';
+import { useNavigate } from 'react-router';
+import { Dispatch, SetStateAction } from 'react';
 
 interface PaginationProps {
+  nextPage: string | null;
+  previousPage: string | null;
   currentPage: number;
-  totalPage: number;
-  handleClickPrev: () => void;
-  handleClickNext: () => void;
+  setCurrentPage: Dispatch<SetStateAction<number>>;
 }
 
 export const Pagination = ({
-  currentPage = API.FIRST_PAGE,
-  totalPage = API.TOTAL_PAGE,
-  handleClickPrev,
-  handleClickNext,
+  nextPage,
+  previousPage,
+  currentPage,
+  setCurrentPage,
 }: PaginationProps) => {
-  const isPrevDisabled = currentPage === API.FIRST_PAGE;
-  const isNextDisabled = currentPage === totalPage;
+  const navigate = useNavigate();
+
+  const handleClickPrevious = () => {
+    setCurrentPage((prev: number) => (previousPage ? prev - 1 : prev));
+    navigate(`/?page=${currentPage - 1}`, { replace: true });
+  };
+
+  const handleClickNext = () => {
+    setCurrentPage((prev: number) => (nextPage ? prev + 1 : prev));
+    navigate(`/?page=${currentPage + 1}`, { replace: true });
+  };
 
   return (
     <div className="paginationContainer">
       <Button
-        label={'Prev'}
-        onClick={handleClickPrev}
-        disabled={isPrevDisabled}
+        label={'Previous'}
+        onClick={handleClickPrevious}
+        disabled={!previousPage}
       />
-      <span>
-        Page {currentPage} of {totalPage}
-      </span>
-      <Button
-        label={'Next'}
-        onClick={handleClickNext}
-        disabled={isNextDisabled}
-      />
+      <Button label={'Next'} onClick={handleClickNext} disabled={!nextPage} />
     </div>
   );
 };

@@ -5,6 +5,5 @@ export const LOCAL_STORAGE = {
 
 export const API = {
   BASE_URL: 'https://swapi.dev/api',
-  TOTAL_PAGE: 3,
   FIRST_PAGE: 1,
 };
