@@ -1,13 +1,21 @@
 import { Route, Routes } from 'react-router';
-import { PeopleList } from './pages/PeopleList.tsx';
+import { Dashboard } from './pages/Dashboard.tsx';
 import { NotFoundPage } from './pages/NotFoundPage.tsx';
-
+import { CardItemDetails } from './pages/CardItemDetails.tsx';
+import { Results } from './components/Results/Results.tsx';
 import './app.css';
 
 export const App = () => {
   return (
     <Routes>
-      <Route path={'/'} element={<PeopleList />} />
+      <Route path={'/'} element={<Dashboard />}>
+        <Route path={'/page/:pageId'} element={<Results />}>
+          <Route
+            path={'/page/:pageId/people/:id'}
+            element={<CardItemDetails />}
+          />
+        </Route>
+      </Route>
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );

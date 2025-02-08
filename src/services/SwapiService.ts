@@ -7,7 +7,7 @@ interface SwapiResponse {
   results: Person[];
 }
 
-export default class SwapiService {
+class SwapiService {
   private readonly baseURL: string;
 
   constructor(baseURL = API.BASE_URL) {
@@ -18,8 +18,7 @@ export default class SwapiService {
     searchTerm: string = '',
     currentPage: number = API.FIRST_PAGE
   ): Promise<SwapiResponse> {
-    const searchParams = `/people/?page=${currentPage}&search=${encodeURIComponent(searchTerm)}`;
-    const url = `${this.baseURL}${searchParams}`;
+    const url = `${this.baseURL}/people/?page=${currentPage}&search=${encodeURIComponent(searchTerm)}`;
 
     return fetch(url)
       .then((response) => {
@@ -33,4 +32,20 @@ export default class SwapiService {
         throw error;
       });
   }
+
+  getPersonById(id: number) {
+    return fetch(`${this.baseURL}/people/${id}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Received ${response.status}`);
+        }
+        return response.json();
+      })
+      .catch((error) => {
+        console.error(error);
+        throw error;
+      });
+  }
 }
+
+export const swapiService = new SwapiService();

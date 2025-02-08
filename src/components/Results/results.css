@@ -15,7 +15,8 @@
 .containerItems {
   width: 100%;
   max-width: 1200px;
-  display: grid;
+  display: flex;
+  justify-content: space-between;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 20px;
   place-items: center;

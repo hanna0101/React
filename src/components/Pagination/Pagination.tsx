@@ -20,12 +20,12 @@ export const Pagination = ({
 
   const handleClickPrevious = () => {
     setCurrentPage((prev: number) => (previousPage ? prev - 1 : prev));
-    navigate(`/?page=${currentPage - 1}`, { replace: true });
+    navigate(`/page/${currentPage - 1}`);
   };
 
   const handleClickNext = () => {
     setCurrentPage((prev: number) => (nextPage ? prev + 1 : prev));
-    navigate(`/?page=${currentPage + 1}`, { replace: true });
+    navigate(`/page/${currentPage + 1}`);
   };
 
   return (
