@@ -1,5 +1,6 @@
 import { useNavigate, useParams } from 'react-router';
 import { useEffect, useState } from 'react';
+
 import { swapiService } from '../../services/SwapiService.ts';
 import { Person } from '../../services/types/types.ts';
 import { CardItem } from '../../components/CardItem/CardItem.tsx';

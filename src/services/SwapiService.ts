@@ -1,5 +1,5 @@
-import { Person } from './types/types.ts';
 import { API } from '../constants/constants.ts';
+import { Person } from './types/types.ts';
 
 interface SwapiResponse {
   next: string | null;

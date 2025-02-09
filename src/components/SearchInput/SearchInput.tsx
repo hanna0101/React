@@ -1,5 +1,6 @@
 import { ChangeEvent } from 'react';
-import './searchInput.css';
+
+import './SearchInputStyles.css';
 
 interface InputProps {
   value: string;

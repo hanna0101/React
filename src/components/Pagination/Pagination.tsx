@@ -1,7 +1,9 @@
-import { Button } from '../Button/Button.tsx';
-import './pagination.css';
 import { useNavigate } from 'react-router';
 import { Dispatch, SetStateAction } from 'react';
+
+import { Button } from '../Button/Button.tsx';
+
+import './PaginationStyles.css';
 
 interface PaginationProps {
   nextPage: string | null;
@@ -19,12 +21,16 @@ export const Pagination = ({
   const navigate = useNavigate();
 
   const handleClickPrevious = () => {
-    setCurrentPage((prev: number) => (previousPage ? prev - 1 : prev));
+    if (!previousPage) return;
+
+    setCurrentPage(Math.max(currentPage - 1, 0));
     navigate(`/page/${currentPage - 1}`);
   };
 
   const handleClickNext = () => {
-    setCurrentPage((prev: number) => (nextPage ? prev + 1 : prev));
+    if (!nextPage) return;
+
+    setCurrentPage(currentPage + 1);
     navigate(`/page/${currentPage + 1}`);
   };
 
@@ -32,10 +38,14 @@ export const Pagination = ({
     <div className="paginationContainer">
       <Button
         label={'Previous'}
-        onClick={handleClickPrevious}
+        onClick={previousPage ? handleClickPrevious : undefined}
         disabled={!previousPage}
       />
-      <Button label={'Next'} onClick={handleClickNext} disabled={!nextPage} />
+      <Button
+        label={'Next'}
+        onClick={nextPage ? handleClickNext : undefined}
+        disabled={!nextPage}
+      />
     </div>
   );
 };

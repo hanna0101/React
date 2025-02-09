@@ -1,7 +1,9 @@
 import { Dispatch, FormEvent, SetStateAction, useState } from 'react';
+
 import { SearchInput } from '../SearchInput/SearchInput.tsx';
 import { Button } from '../Button/Button.tsx';
-import './searchForm.css';
+
+import './SearchFormStyles.css';
 
 interface SearchFormProps {
   searchTerm: string;

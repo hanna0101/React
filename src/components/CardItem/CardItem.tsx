@@ -1,4 +1,4 @@
-import './cardItem.css';
+import './CardItemStyles.css';
 
 interface CardItemsProps {
   img: string;

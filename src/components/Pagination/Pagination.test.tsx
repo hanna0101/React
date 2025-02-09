@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { Pagination } from './Pagination';
 import { jest } from '@jest/globals';
+import { Pagination } from './Pagination';
 
 const mockNavigate = jest.fn();
 
@@ -54,7 +54,7 @@ describe('Pagination', () => {
 
     render(
       <Pagination
-        nextPage={'2'}
+        nextPage={'3'}
         previousPage={'1'}
         currentPage={2}
         setCurrentPage={mockSetCurrentPage}
@@ -64,7 +64,7 @@ describe('Pagination', () => {
     const previousButton = screen.getByText('Previous');
     fireEvent.click(previousButton);
 
-    expect(mockNavigate).toHaveBeenCalledWith('/page/1');
     expect(mockSetCurrentPage).toHaveBeenCalled();
+    expect(mockNavigate).toHaveBeenCalledWith('/page/1');
   });
 });

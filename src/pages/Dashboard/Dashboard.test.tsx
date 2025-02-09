@@ -1,12 +1,16 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import { Results } from './Results';
 import '@testing-library/jest-dom';
 import { jest } from '@jest/globals';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 
+import { mockCardItemData } from '../../components/CardItem/CardItem.test.tsx';
+import { Dashboard } from './Dashboard.tsx';
+
 const FakeOutlet = () => null;
 
-describe('Results Component', () => {
+const PAGE_SIZE = 10;
+
+describe('Dashboard Component', () => {
   afterEach(() => {
     if (global.fetch) {
       (global.fetch as jest.Mock).mockClear();
@@ -21,7 +25,14 @@ describe('Results Component', () => {
     global.fetch = jest.fn(() =>
       Promise.resolve({
         ok: true,
-        json: async () => ({ results: [], next: null, previous: null }),
+        json: async () => ({
+          results: Array.from({ length: PAGE_SIZE }, (_, i) => ({
+            ...mockCardItemData,
+            id: i + 1,
+          })),
+          next: null,
+          previous: null,
+        }),
       } as Response)
     ) as jest.MockedFunction<
       (input: RequestInfo | URL, init?: RequestInit) => Promise<Response>
@@ -30,7 +41,7 @@ describe('Results Component', () => {
     render(
       <MemoryRouter initialEntries={['/page/1']}>
         <Routes>
-          <Route path={'/page/:pageId'} element={<Results />}>
+          <Route path={'/page/:pageId'} element={<Dashboard />}>
             <Route path={'/page/:pageId/people/:id'} element={<FakeOutlet />} />
           </Route>
         </Routes>
@@ -39,6 +50,8 @@ describe('Results Component', () => {
 
     await waitFor(() => {
       expect(screen.getByText('Results')).toBeInTheDocument();
+      const cardItems = screen.getAllByTestId('card-item');
+      expect(cardItems.length).toBe(PAGE_SIZE);
     });
   });
 
@@ -55,7 +68,7 @@ describe('Results Component', () => {
     render(
       <MemoryRouter initialEntries={['/page/1']}>
         <Routes>
-          <Route path={'/page/:pageId'} element={<Results />}>
+          <Route path={'/page/:pageId'} element={<Dashboard />}>
             <Route path={'/page/:pageId/people/:id'} element={<FakeOutlet />} />
           </Route>
         </Routes>

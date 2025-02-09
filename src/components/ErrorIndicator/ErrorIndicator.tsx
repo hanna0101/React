@@ -1,4 +1,4 @@
-import './errorIndicator.css';
+import './ErrorIndicatorStyles.css';
 export const ErrorIndicator = () => {
   return (
     <div className="error-indicator" data-testid="error-indicator">

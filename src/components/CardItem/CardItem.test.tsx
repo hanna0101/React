@@ -2,7 +2,8 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { CardItem } from './CardItem.tsx';
 
-const mockCardItemData = {
+export const mockCardItemData = {
+  url: 'https://swapi.dev/api/people/1/',
   img: `https://starwars-visualguide.com/assets/img/characters/1.jpg`,
   name: 'Luke Skywalker',
   birthYear: '19BBY',
