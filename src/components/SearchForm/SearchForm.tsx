@@ -22,7 +22,7 @@ const SearchForm = ({
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} role={'form'}>
       <SearchInput
         value={value}
         onChange={(event) => setValue(event.target.value)}

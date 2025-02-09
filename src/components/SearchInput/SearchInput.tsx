@@ -1,8 +1,9 @@
+import { ChangeEvent } from 'react';
 import './searchInput.css';
 
 interface InputProps {
   value: string;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const SearchInput = ({ value, onChange }: InputProps) => {

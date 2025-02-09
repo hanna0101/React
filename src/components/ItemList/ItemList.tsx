@@ -1,7 +1,7 @@
-import './itemList.css';
 import { useNavigate, useParams } from 'react-router';
 import { Spinner } from '../Spinner/Spinner.tsx';
 import { Person } from '../../services/types/types.ts';
+import './itemList.css';
 
 export const ItemList = ({
   items,

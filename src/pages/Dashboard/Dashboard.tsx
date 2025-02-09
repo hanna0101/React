@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router';
-import { API } from '../constants/constants.ts';
+import { API } from '../../constants/constants.ts';
 
 export const Dashboard = () => {
   const location = useLocation();

@@ -1,10 +1,10 @@
 import { useNavigate, useParams } from 'react-router';
 import { useEffect, useState } from 'react';
-import { swapiService } from '../services/SwapiService.ts';
-import { Person } from '../services/types/types.ts';
-import { CardItem } from '../components/CardItem/CardItem.tsx';
-import { ErrorIndicator } from '../components/ErrorIndicator/ErrorIndicator.tsx';
-import { Spinner } from '../components/Spinner/Spinner.tsx';
+import { swapiService } from '../../services/SwapiService.ts';
+import { Person } from '../../services/types/types.ts';
+import { CardItem } from '../../components/CardItem/CardItem.tsx';
+import { ErrorIndicator } from '../../components/ErrorIndicator/ErrorIndicator.tsx';
+import { Spinner } from '../../components/Spinner/Spinner.tsx';
 
 export const CardItemDetails = () => {
   const { id: personId, pageId } = useParams();

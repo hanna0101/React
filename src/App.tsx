@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router';
-import { Dashboard } from './pages/Dashboard.tsx';
-import { NotFoundPage } from './pages/NotFoundPage.tsx';
-import { CardItemDetails } from './pages/CardItemDetails.tsx';
+import { Dashboard } from './pages/Dashboard/Dashboard.tsx';
+import { NotFoundPage } from './pages/NotFoundPage/NotFoundPage.tsx';
+import { CardItemDetails } from './pages/CardItemDetails/CardItemDetails.tsx';
 import { Results } from './components/Results/Results.tsx';
 import './app.css';
 

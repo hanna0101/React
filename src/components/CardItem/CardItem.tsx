@@ -3,7 +3,7 @@ import './cardItem.css';
 interface CardItemsProps {
   img: string;
   name: string;
-  birthYear: number;
+  birthYear: string;
   gender: string;
   eyeColor: string;
   handleDetailsClose: () => void;
