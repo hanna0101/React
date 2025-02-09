@@ -6,6 +6,7 @@ interface CardItemsProps {
   birthYear: number;
   gender: string;
   eyeColor: string;
+  handleDetailsClose: () => void;
 }
 
 export const CardItem = ({
@@ -14,9 +15,13 @@ export const CardItem = ({
   birthYear,
   gender,
   eyeColor,
+  handleDetailsClose,
 }: CardItemsProps) => {
   return (
     <div className="cardItem">
+      <button className={'close'} onClick={handleDetailsClose}>
+        X
+      </button>
       <img src={img} alt={name} />
       <div>
         <strong>Name:</strong> {name}

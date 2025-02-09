@@ -1,4 +1,4 @@
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { useEffect, useState } from 'react';
 import { swapiService } from '../services/SwapiService.ts';
 import { Person } from '../services/types/types.ts';
@@ -7,10 +7,11 @@ import { ErrorIndicator } from '../components/ErrorIndicator/ErrorIndicator.tsx'
 import { Spinner } from '../components/Spinner/Spinner.tsx';
 
 export const CardItemDetails = () => {
-  const { id: personId } = useParams();
+  const { id: personId, pageId } = useParams();
   const [searchResults, setSearchResults] = useState<Person>({} as never);
   const [isLoading, setIsLoading] = useState(false);
   const [isServerError, setIsServerError] = useState(false);
+  const navigate = useNavigate();
 
   const { name, birth_year, gender, eye_color } = searchResults || [];
 
@@ -47,6 +48,7 @@ export const CardItemDetails = () => {
           birthYear={birth_year}
           gender={gender}
           eyeColor={eye_color}
+          handleDetailsClose={() => navigate(`/page/${pageId}`)}
         />
       )}
     </>
