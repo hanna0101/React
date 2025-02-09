@@ -1,0 +1,16 @@
+:root {
+  --form-border-color: #dddddd;
+  --form-bg-color: #f9f9f9; ;
+}
+
+form {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0;
+  padding: 10px;
+  border: 1px solid var(--form-border-color);
+  border-radius: 10px;
+  background-color: var(--form-bg-color);
+}

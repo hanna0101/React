@@ -1,4 +1,3 @@
-import { Component } from 'react';
 import './button.css';
 
 interface ButtonProps {
@@ -8,20 +7,19 @@ interface ButtonProps {
   disabled?: boolean;
 }
 
-export default class Button extends Component<
-  ButtonProps,
-  Record<never, never>
-> {
-  render() {
-    const { onClick, label, type = 'button', disabled } = this.props;
-    return (
-      <button
-        type={type as 'button' | 'submit' | 'reset'}
-        onClick={onClick}
-        disabled={disabled}
-      >
-        {label}
-      </button>
-    );
-  }
-}
+export const Button = ({
+  onClick,
+  label,
+  type = 'button',
+  disabled,
+}: ButtonProps) => {
+  return (
+    <button
+      type={type as 'button' | 'submit' | 'reset'}
+      onClick={onClick}
+      disabled={disabled}
+    >
+      {label}
+    </button>
+  );
+};

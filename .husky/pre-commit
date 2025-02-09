@@ -6,4 +6,7 @@ npm run tsc -b
 echo "=====>>>> lint is running <<<<<====="
 npm run lint
 
+echo "=====>>>> Running tests <<<<<====="
+npm test
+
 echo "=====>>>> Pre-commit hook ending <<<<<====="

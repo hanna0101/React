@@ -1,27 +1,37 @@
-import { Component } from 'react';
-import Button from '../Button/Button.tsx';
-import SearchInput from '../SearchInput/SearchInput.tsx';
-import './searchForm.css';
+import { Dispatch, FormEvent, SetStateAction, useState } from 'react';
+
+import { SearchInput } from '../SearchInput/SearchInput.tsx';
+import { Button } from '../Button/Button.tsx';
+
+import './SearchFormStyles.css';
 
 interface SearchFormProps {
-  onSearchResult: (event: React.FormEvent<HTMLFormElement>) => void;
   searchTerm: string;
-  onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   isLoading: boolean;
+  setSearchTerm: Dispatch<SetStateAction<string>>;
 }
 
-export default class SearchForm extends Component<
-  SearchFormProps,
-  Record<never, never>
-> {
-  render() {
-    const { onSearchResult, searchTerm, onInputChange, isLoading } = this.props;
+const SearchForm = ({
+  searchTerm,
+  setSearchTerm,
+  isLoading,
+}: SearchFormProps) => {
+  const [value, setValue] = useState(searchTerm);
 
-    return (
-      <form onSubmit={onSearchResult}>
-        <SearchInput value={searchTerm} onChange={onInputChange} />
-        <Button type="submit" label="Search" disabled={isLoading} />
-      </form>
-    );
-  }
-}
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setSearchTerm(value);
+  };
+
+  return (
+    <form onSubmit={handleSubmit} role={'form'}>
+      <SearchInput
+        value={value}
+        onChange={(event) => setValue(event.target.value)}
+      />
+      <Button type="submit" label="Search" disabled={isLoading} />
+    </form>
+  );
+};
+
+export default SearchForm;

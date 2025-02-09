@@ -1,5 +1,5 @@
 import { Component, ReactNode } from 'react';
-import ErrorIndicator from '../ErrorIndicator/ErrorIndicator.tsx';
+import { ErrorIndicator } from '../ErrorIndicator/ErrorIndicator.tsx';
 
 interface ErrorBoundaryProps {
   children: ReactNode;

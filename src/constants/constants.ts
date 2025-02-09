@@ -3,4 +3,7 @@ export const LOCAL_STORAGE = {
   RESULTS: 'results',
 };
 
-export const BASE_URL = 'https://swapi.dev/api';
+export const API = {
+  BASE_URL: 'https://swapi.dev/api',
+  FIRST_PAGE: 1,
+};
