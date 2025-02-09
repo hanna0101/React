@@ -13,7 +13,7 @@ export const CardItemDetails = () => {
   const [isServerError, setIsServerError] = useState(false);
   const navigate = useNavigate();
 
-  const { name, birth_year, gender, eye_color } = searchResults || [];
+  const { name, birth_year, gender, eye_color } = searchResults || {};
 
   useEffect(() => {
     setIsLoading(true);
