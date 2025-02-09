@@ -1,3 +1,11 @@
+:root {
+  --item-bg-color: #f9f9f9;
+  --item-link-bg-hover-color: #007bff;
+  --item-link-text-color: #333333;
+  --item-link-hover-text-color: #ffffff;
+  --box-shadow-color: #0000001a;
+}
+
 ul {
   list-style: none;
   padding: 0;
@@ -8,10 +16,10 @@ ul {
 }
 
 li {
-  background: #f9f9f9;
+  background: var(--item-bg-color);
   padding: 4px 12px;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px var(--box-shadow-color);
 }
 
 .itemLink {
@@ -26,13 +34,11 @@ li {
   align-items: center;
   gap: 8px;
   font-weight: 500;
-  color: #333333;
+  color: var(--item-link-text-color);
 }
-
 
 .itemLink:hover {
-  background: #007bff;
-  color: white;
+  background: var(--item-link-bg-hover-color);
+  color: var(--item-link-hover-text-color);
   transform: scale(1);
 }
-

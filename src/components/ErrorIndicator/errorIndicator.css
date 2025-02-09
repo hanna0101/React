@@ -1,13 +1,20 @@
+:root {
+  --error-bg-color: #ffdddd;
+  --error-border-color: #ff5c5c;
+  --error-text-color: #d8000c;
+  --error-box-shadow-color: #0000001a;
+}
+
 .error-indicator {
-  background-color: #ffdddd;
-  border: 1px solid #ff5c5c;
-  color: #d8000c;
+  background-color: var(--error-bg-color);
+  border: 1px solid var(--error-border-color);
+  color: var(--error-text-color);
   padding: 16px;
   border-radius: 8px;
   text-align: center;
   max-width: 400px;
   margin: 20px auto;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px var(--error-box-shadow-color);
 }
 
 .error-indicator h2 {

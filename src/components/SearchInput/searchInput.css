@@ -1,8 +1,15 @@
+:root {
+  --input-border-color: #dddddd;
+  --input-focus-border-color: #007bff;
+  --input-focus-box-shadow-color: #007bff80;
+  --input-placeholder-color: #aaaaaa;
+}
+
 input {
   width: 250px;
   padding: 10px;
   font-size: 16px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--input-border-color);
   border-radius: 5px;
   transition:
     border-color 0.3s ease,
@@ -10,11 +17,11 @@ input {
 }
 
 input:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  border-color: var(--input-focus-border-color);
+  box-shadow: 0 0 5px var(--input-focus-box-shadow-color);
   outline: none;
 }
 
 input::placeholder {
-  color: #aaa;
+  color: var(--input-placeholder-color);
 }

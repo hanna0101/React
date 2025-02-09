@@ -1,10 +1,19 @@
+:root {
+  --primary-color: #007bff;
+  --primary-hover-color: #0056b3;
+  --primary-active-color: #004085;
+  --primary-disabled-color: #6c757d;
+  --text-color: #ffffff;
+}
+
+
 button {
   max-width: 150px;
   padding: 10px 20px;
   font-size: 16px;
   font-weight: bold;
-  color: white;
-  background-color: #007bff;
+  color: var(--text-color);
+  background-color: var(--primary-color);
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -14,12 +23,12 @@ button {
 }
 
 button:disabled {
-  background-color: #6c757d;
+  background-color: var(--primary-disabled-color);
   cursor: not-allowed;
 }
 
 button:hover:not(:disabled) {
-  background-color: #0056b3;
+  background-color: var(--primary-hover-color);
 }
 
 button:active:not(:disabled) {
